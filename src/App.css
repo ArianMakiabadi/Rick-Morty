@@ -15,9 +15,8 @@
   margin-bottom: 1rem;
 }
 
-.navbar__logo {
-  color: var(--slate-300);
-  font-weight: 700;
+.navbar__logo img {
+  width: 2rem;
 }
 
 .navbar__result {
