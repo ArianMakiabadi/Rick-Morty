@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 function App() {
   const [characters, setCharacters] = useState([]);
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(1);
 
   useEffect(() => {
     async function getCharacters() {
@@ -34,12 +35,19 @@ function App() {
         <Search query={query} setQuery={setQuery} />
         <SearchCount resultCount={characters.length} />
       </Navbar>
-      <div className="main">
-        <CharacterList allCharacters={characters} />
-        <CharacterDetails />
-      </div>
+      <Main>
+        <CharacterList
+          allCharacters={characters}
+          setSelectedId={setSelectedId}
+        />
+        <CharacterDetails selectedId={selectedId} />
+      </Main>
     </div>
   );
 }
 
 export default App;
+
+function Main({ children }) {
+  return <div className="main">{children}</div>;
+}

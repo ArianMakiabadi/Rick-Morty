@@ -1,26 +1,46 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
-import { character, episodes } from "../../data/data";
+import { episodes } from "../../data/data";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-function CharacterDetails() {
+function CharacterDetails({ selectedId }) {
+  const [selectedCharacter, setSelectedCharacter] = useState({});
+
+  useEffect(() => {
+    async function getCharacter() {
+      try {
+        const res = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`
+        );
+        setSelectedCharacter(res.data);
+      } catch (error) {
+        toast.error(err.response.data.error);
+      }
+    }
+    getCharacter();
+  }, [selectedId]);
+
   return (
     <div style={{ flex: 1 }}>
       <div className="character-detail">
-        <img src={character.image} alt={character.name} />
+        <img src={selectedCharacter.image} alt={selectedCharacter.name} />
         <div className="character-detail__info">
           <h3 className="name">
-            <span>{character.gender === "Male" ? "🙍‍♂️" : "🙎‍♀️"}</span>
-            <span>&nbsp;{character.name}</span>
+            <span>{selectedCharacter.gender === "Male" ? "🙍‍♂️" : "🙎‍♀️"}</span>
+            <span>&nbsp;{selectedCharacter.name}</span>
           </h3>
           <div className="info">
             <span
-              className={`status ${character.status === "Dead" ? "red" : ""}`}
+              className={`status ${
+                selectedCharacter.status === "Dead" ? "red" : ""
+              }`}
             ></span>
-            <span>&nbsp;{character.status}</span>
-            <span> -&nbsp;{character.species}</span>
+            <span>&nbsp;{selectedCharacter.status}</span>
+            <span> -&nbsp;{selectedCharacter.species}</span>
           </div>
           <div className="location">
             <p>Last known location:</p>
-            <p>{character.location.name}</p>
+            <p>{selectedCharacter.location.name}</p>
           </div>
           <div className="actions">
             <button className="btn btn--primary">Add to favourite</button>
