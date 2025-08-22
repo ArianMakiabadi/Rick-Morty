@@ -97,6 +97,7 @@
   grid-column: 2/3;
   grid-row: 2/3;
   align-self: center;
+  color: var(--slate-400);
 }
 
 .list__item .icon {
