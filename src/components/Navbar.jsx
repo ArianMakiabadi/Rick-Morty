@@ -1,5 +1,4 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
-import { Children } from "react";
 
 function Navbar({ children }) {
   return (
@@ -8,10 +7,6 @@ function Navbar({ children }) {
         <img src="rick-sanchez.png" />
       </div>
       {children}
-      <button className="heart">
-        <HeartIcon className="icon" />
-        <span className="badge">4</span>
-      </button>
     </nav>
   );
 }
@@ -32,4 +27,13 @@ export function Search({ query, setQuery }) {
 
 export function SearchCount({ resultCount }) {
   return <div className="navbar__result">Found {resultCount} characters</div>;
+}
+
+export function Favourites({ countFavourites }) {
+  return (
+    <button className="heart">
+      <HeartIcon className="icon" />
+      <span className="badge">{countFavourites}</span>
+    </button>
+  );
 }
