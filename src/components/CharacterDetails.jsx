@@ -2,6 +2,7 @@ import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Check, Mars, Venus } from "lucide-react";
 
 function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
@@ -39,7 +40,13 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
         <img src={selectedCharacter.image} alt={selectedCharacter.name} />
         <div className="character-detail__info">
           <h3 className="name">
-            <span>{selectedCharacter.gender === "Male" ? "🙍‍♂️" : "🙎‍♀️"}</span>
+            <span>
+              {selectedCharacter.gender === "Male" ? (
+                <Mars stroke="#1E90FF" style={{ verticalAlign: "middle" }} />
+              ) : (
+                <Venus stroke="#FF69B4" style={{ verticalAlign: "middle" }} />
+              )}
+            </span>
             <span>&nbsp;{selectedCharacter.name}</span>
           </h3>
           <div className="info">
@@ -57,7 +64,10 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
           </div>
           <div className="actions">
             {isFavorite ? (
-              <p>This character is added to favorites ✅</p>
+              <p>
+                <Check stroke="#28A745" style={{ verticalAlign: "middle" }} />
+                &nbsp;This character is added to favorites
+              </p>
             ) : (
               <button
                 className="btn btn--primary"

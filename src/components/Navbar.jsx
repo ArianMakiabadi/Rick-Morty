@@ -4,7 +4,7 @@ function Navbar({ children }) {
   return (
     <nav className="navbar">
       <div className="navbar__logo">
-        <img src="rick-sanchez.png" />
+        <img src="RickMorty.svg" />
       </div>
       {children}
     </nav>

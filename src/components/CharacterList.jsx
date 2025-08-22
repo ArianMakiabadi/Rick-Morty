@@ -1,4 +1,4 @@
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { Mars, Venus } from "lucide-react";
 
 function CharacterList({ allCharacters, setSelectedId }) {
   return (
@@ -17,7 +17,13 @@ function Character({ item, setSelectedId }) {
     <div className="list__item" onClick={() => setSelectedId(item.id)}>
       <img src={item.image} alt={item.name} />
       <h3 className="name">
-        <span>{item.gender === "Male" ? "🙎‍♂️" : "🙎‍♀️"}</span>
+        <span>
+          {item.gender === "Male" ? (
+            <Mars stroke="#1E90FF" style={{ verticalAlign: "middle" }} />
+          ) : (
+            <Venus stroke="#FF69B4" style={{ verticalAlign: "middle" }} />
+          )}
+        </span>
         <span> {item.name}</span>
       </h3>
       <div className="list-item__info">

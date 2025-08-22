@@ -16,7 +16,7 @@
 }
 
 .navbar__logo img {
-  width: 2rem;
+  width: 2.5rem;
 }
 
 .navbar__result {
@@ -107,6 +107,12 @@
 
 .icon.red {
   color: var(--rose-500);
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .name,
