@@ -1,24 +1,37 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
-import { episodes } from "../../data/data";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function CharacterDetails({ selectedId }) {
-  const [selectedCharacter, setSelectedCharacter] = useState({});
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
 
   useEffect(() => {
-    async function getCharacter() {
+    async function fetchData() {
       try {
-        const res = await axios.get(
+        const characters = await axios.get(
           `https://rickandmortyapi.com/api/character/${selectedId}`
         );
-        setSelectedCharacter(res.data);
-      } catch (error) {
+        setSelectedCharacter(characters.data);
+
+        const episodeIds = characters.data.episode.map((e) =>
+          e.split("/").at(-1)
+        );
+        const { data: episodeData } = await axios.get(
+          `https://rickandmortyapi.com/api/episode/${episodeIds}`
+        );
+
+        // Normalize: always an array
+        setEpisodes([episodeData].flat());
+      } catch (err) {
         toast.error(err.response.data.error);
       }
     }
-    getCharacter();
+    fetchData();
   }, [selectedId]);
+
+  if (!selectedCharacter) return <p>Please select a character!</p>;
 
   return (
     <div style={{ flex: 1 }}>
