@@ -19,18 +19,31 @@ function App() {
   const isFavorite = favourites.map((fav) => fav.id).includes(selectedId);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const DEBOUNCE_DELAY = 300; // debounce delay
+
     async function getCharacters() {
       try {
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character?name=${query}`
+          `https://rickandmortyapi.com/api/character?name=${query}`,
+          { signal }
         );
         setCharacters(data.results);
       } catch (err) {
+        if (axios.isCancel(err)) return; // request was cancelled
         setCharacters([]);
         toast.error(err.response.data.error);
       }
     }
-    getCharacters();
+
+    // setup debounce timeout
+    const timeout = setTimeout(getCharacters, DEBOUNCE_DELAY);
+    // Cleanup: abort request + clear timeout
+    return () => {
+      controller.abort();
+      clearTimeout(timeout);
+    };
   }, [query]);
 
   return (
