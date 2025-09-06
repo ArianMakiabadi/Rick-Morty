@@ -1,4 +1,5 @@
 import "./App.css";
+import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
 import Navbar, { Favourites, Search, SearchCount } from "./components/Navbar";
