@@ -36,20 +36,25 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
 
   return (
     <div style={{ flex: 1 }}>
-      <div className="character-detail">
-        <img src={selectedCharacter.image} alt={selectedCharacter.name} />
-        <div className="character-detail__info">
-          <h3 className="name">
+      {/* Character Info Section */}
+      <div className="flex flex-col lg:flex-row justify-center items-center lg:justify-start lg:gap-10 bg-slate-800 rounded-3xl mb-6 overflow-hidden p-4">
+        <img
+          className="w-60 h-60 rounded-full"
+          src={selectedCharacter.image}
+          alt={selectedCharacter.name}
+        />
+        <div className="flex flex-col justify-center items-center lg:items-start gap-2 p-4">
+          <h3 className="flex items-center text-white text-3xl text-nowrap">
             <span>
               {selectedCharacter.gender === "Male" ? (
-                <Mars stroke="#1E90FF" style={{ verticalAlign: "middle" }} />
+                <Mars stroke="#1E90FF" />
               ) : (
-                <Venus stroke="#FF69B4" style={{ verticalAlign: "middle" }} />
+                <Venus stroke="#FF69B4" />
               )}
             </span>
             <span>&nbsp;{selectedCharacter.name}</span>
           </h3>
-          <div className="info">
+          <div className="text-slate-200">
             <span
               className={`status ${
                 selectedCharacter.status === "Dead" ? "red" : ""
@@ -58,13 +63,17 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
             <span>&nbsp;{selectedCharacter.status}</span>
             <span> -&nbsp;{selectedCharacter.species}</span>
           </div>
-          <div className="location">
-            <p>Last known location:</p>
-            <p>{selectedCharacter.location.name}</p>
-          </div>
-          <div className="actions">
+          <p className="text-slate-300 ">
+            <span className="font-extrabold">Last known location: </span>
+            <span>{selectedCharacter.location.name}</span>
+          </p>
+          <p className="text-slate-300 mb-6">
+            <span className="font-extrabold">Origin: </span>
+            <span>{selectedCharacter.origin.name}</span>
+          </p>
+          <div className="text-slate-400">
             {isFavorite ? (
-              <p>
+              <p className="flex flex-row">
                 <Check stroke="#28A745" style={{ verticalAlign: "middle" }} />
                 &nbsp;This character is added to favorites
               </p>
@@ -79,16 +88,23 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
           </div>
         </div>
       </div>
-      <div className="character-episodes">
-        <div className="title">
-          <h2>List of episodes:</h2>
+      {/* Episodes Section */}
+      <div className="bg-slate-800 p-4 rounded-3xl">
+        <div className="flex items-center justify-between">
+          <h2 className="text-slate-400 mb-2">List of episodes:</h2>
           <button>
-            <ArrowUpCircleIcon className="icon" />
+            <ArrowUpCircleIcon
+              className="w-8 h-8 text-slate-300 transition-all duration-300 ease-in-out
+"
+            />
           </button>
         </div>
-        <ul>
+        <ul className="list-disc list-inside text-gray-300 max-h-40 overflow-auto">
           {episodes.map((item, index) => (
-            <li key={item.id}>
+            <li
+              className="flex justify-between items-center py-2"
+              key={item.id}
+            >
               <div>
                 {String(index + 1).padStart(2, "0")} {item.episode} :{" "}
                 <strong>{item.name}</strong>

@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-4 py-3 rounded-2xl;
+  }
+
+  .btn--primary {
+    @apply bg-slate-500 text-slate-100 font-bold;
+  }
+
+  .btn--secondary {
+    @apply border border-slate-100 text-slate-100 font-bold;
+  }
+
+  .badge {
+    @apply whitespace-nowrap px-4 py-1 rounded-2xl text-xs font-bold;
+  }
+
+  .badge--secondary {
+    @apply bg-slate-600;
+  }
+}
