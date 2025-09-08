@@ -10,7 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 function App() {
   const [characters, setCharacters] = useState([]);
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedId, setSelectedId] = useState(null);
   const [favourites, setFavorites] = useState([]);
 
   function handleAddFavorites(selectedCharacter) {
@@ -18,6 +18,15 @@ function App() {
   }
 
   const isFavorite = favourites.map((fav) => fav.id).includes(selectedId);
+
+  // Preventing CharacterList to scroll when CharacterDetails is open
+  useEffect(() => {
+    if (selectedId) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [selectedId]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -62,12 +71,25 @@ function App() {
           allCharacters={characters}
           setSelectedId={setSelectedId}
         />
-        <CharacterDetails
-          selectedId={selectedId}
-          onAddFavorite={handleAddFavorites}
-          isFavorite={isFavorite}
-        />
       </Main>
+      {/* Conditional rendering of CharacterDetails with a backdrop */}
+      {selectedId && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={() => setSelectedId(null)}
+        >
+          <div
+            className="max-w-[80%] max-h-[80%]"
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+          >
+            <CharacterDetails
+              selectedId={selectedId}
+              onAddFavorite={handleAddFavorites}
+              isFavorite={isFavorite}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -41,7 +41,7 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
   if (!selectedCharacter) return <p>Please select a character!</p>;
 
   return (
-    <div className="max-w-[80%] max-h-[80%] mx-auto hidden">
+    <div className="">
       <div
         className="rounded-3xl overflow-hidden bg-slate-800"
         style={{ flex: 1 }}
@@ -61,7 +61,11 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
             <div className="text-slate-200">
               <span
                 className={`status ${
-                  selectedCharacter.status === "Dead" ? "red" : ""
+                  selectedCharacter.status === "Dead"
+                    ? "bg-rose-600"
+                    : selectedCharacter.status === "Alive"
+                    ? "bg-green-600"
+                    : "bg-yellow-400"
                 }`}
               ></span>
               <span>&nbsp;{selectedCharacter.status}</span>
