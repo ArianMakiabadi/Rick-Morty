@@ -58,9 +58,7 @@ function App() {
 
   return (
     <div className="app">
-      <div>
-        <Toaster />
-      </div>
+      <Toaster />
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchCount resultCount={characters.length} />
@@ -69,23 +67,14 @@ function App() {
 
       <CharacterList allCharacters={characters} setSelectedId={setSelectedId} />
 
-      {/* Conditional rendering of CharacterDetails with a backdrop */}
+      {/* Rendering of CharacterDetails only when a character is selected */}
       {selectedId && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-          onClick={() => setSelectedId(null)}
-        >
-          <div
-            className="max-w-[80%] max-h-[80%]"
-            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
-          >
-            <CharacterDetails
-              selectedId={selectedId}
-              onAddFavorite={handleAddFavorites}
-              isFavorite={isFavorite}
-            />
-          </div>
-        </div>
+        <CharacterDetails
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          onAddFavorite={handleAddFavorites}
+          isFavorite={isFavorite}
+        />
       )}
     </div>
   );
