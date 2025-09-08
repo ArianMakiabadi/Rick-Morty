@@ -2,7 +2,7 @@ import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Check, Mars, Venus } from "lucide-react";
+import { Check, CircleHelp, Mars, Venus } from "lucide-react";
 
 function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
@@ -32,10 +32,16 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
     fetchData();
   }, [selectedId]);
 
+  const genderIcons = {
+    Male: <Mars stroke="#1E90FF" />,
+    Female: <Venus stroke="#FF69B4" />,
+    unknown: <CircleHelp stroke="#A9A9A9" />,
+  };
+
   if (!selectedCharacter) return <p>Please select a character!</p>;
 
   return (
-    <div className="max-w-[80%] max-h-[80%] mx-auto">
+    <div className="max-w-[80%] max-h-[80%] mx-auto hidden">
       <div
         className="rounded-3xl overflow-hidden bg-slate-800"
         style={{ flex: 1 }}
@@ -48,14 +54,8 @@ function CharacterDetails({ selectedId, onAddFavorite, isFavorite }) {
             alt={selectedCharacter.name}
           />
           <div className="flex flex-col justify-center items-center lg:items-start gap-2 p-4">
-            <h3 className="flex items-center text-white text-3xl text-nowrap">
-              <span>
-                {selectedCharacter.gender === "Male" ? (
-                  <Mars stroke="#1E90FF" />
-                ) : (
-                  <Venus stroke="#FF69B4" />
-                )}
-              </span>
+            <h3 className="flex items-center  text-white text-3xl text-nowrap">
+              <span>{genderIcons[selectedCharacter.gender]}</span>
               <span>&nbsp;{selectedCharacter.name}</span>
             </h3>
             <div className="text-slate-200">
