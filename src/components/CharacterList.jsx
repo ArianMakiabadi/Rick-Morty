@@ -1,6 +1,6 @@
 function CharacterList({ allCharacters, setSelectedId }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto flex-1 ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto flex-1 px-8">
       {allCharacters.map((item) => (
         <Character key={item.id} item={item} setSelectedId={setSelectedId} />
       ))}

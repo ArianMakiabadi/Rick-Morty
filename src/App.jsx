@@ -66,12 +66,9 @@ function App() {
         <SearchCount resultCount={characters.length} />
         <Favourites countFavourites={favourites.length} />
       </Navbar>
-      <Main>
-        <CharacterList
-          allCharacters={characters}
-          setSelectedId={setSelectedId}
-        />
-      </Main>
+
+      <CharacterList allCharacters={characters} setSelectedId={setSelectedId} />
+
       {/* Conditional rendering of CharacterDetails with a backdrop */}
       {selectedId && (
         <div
@@ -95,7 +92,3 @@ function App() {
 }
 
 export default App;
-
-function Main({ children }) {
-  return <div className="main">{children}</div>;
-}
