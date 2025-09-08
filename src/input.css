@@ -22,4 +22,10 @@
   .badge--secondary {
     @apply bg-slate-600;
   }
+  .status {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+  }
 }
