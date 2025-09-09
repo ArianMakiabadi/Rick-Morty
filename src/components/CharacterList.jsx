@@ -1,6 +1,6 @@
 function CharacterList({ allCharacters, setSelectedId }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-auto flex-1 px-8">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mx-auto flex-1 px-8">
       {allCharacters.map((item) => (
         <Character key={item.id} item={item} setSelectedId={setSelectedId} />
       ))}
@@ -13,18 +13,20 @@ export default CharacterList;
 function Character({ item, setSelectedId }) {
   return (
     <div
-      className="shadow-lg bg-slate-800 hover:bg-slate-700 p-4 rounded-3xl hover:scale-105 transition-transform duration-200 cursor-pointer flex flex-col sm:block"
+      className="shadow-lg bg-slate-800 hover:bg-slate-700 p-4 rounded-3xl hover:scale-105 transition-transform duration-200 cursor-pointer flex flex-col items-center"
       onClick={() => setSelectedId(item.id)}
     >
       <img
-        className="rounded-full sm:rounded-3xl  mx-auto mb-2"
+        className="rounded-full sm:rounded-3xl max-h-48 sm:max-h-full mx-auto mb-2"
         src={item.image}
         alt={item.name}
       />
-      <h3 className="mx-auto">
-        <span className="text-2xl text-slate-200"> {item.name}</span>
+      <h3 className="mb-1 max-w-full">
+        <span className="block w-full text-xl 2xl:text-2xl text-slate-200 truncate overflow-hidden whitespace-nowrap">
+          {item.name}
+        </span>
       </h3>
-      <div className="mx-auto text-slate-400">
+      <div className="mx-auto text-slate-400 text-xs">
         <span
           className={`status ${
             item.status === "Dead"
