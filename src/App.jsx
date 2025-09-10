@@ -63,7 +63,11 @@ function App() {
     <div className="app">
       <Toaster />
       <Navbar>
-        <Search query={query} setQuery={setQuery} />
+        <Search
+          query={query}
+          setQuery={setQuery}
+          setCurrentPage={setCurrentPage}
+        />
         <SearchCount resultCount={characters.length} />
         <Favourites countFavourites={favourites.length} />
       </Navbar>

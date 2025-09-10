@@ -32,11 +32,14 @@ function Navbar({ children }) {
 export default Navbar;
 
 /* Subcomponents */
-export function Search({ query, setQuery }) {
+export function Search({ query, setQuery, setCurrentPage }) {
   return (
     <input
       value={query}
-      onChange={(e) => setQuery(e.target.value)}
+      onChange={(e) => {
+        setQuery(e.target.value);
+        setCurrentPage(1);
+      }}
       type="text"
       placeholder="Search..."
       className="w-full px-3 py-1 rounded-lg bg-slate-600 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
