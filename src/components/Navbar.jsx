@@ -6,7 +6,7 @@ function Navbar({ children }) {
   // children[2] → Favourites
 
   return (
-    <nav className="flex sticky top-0 items-center justify-between bg-slate-700 py-2 px-4 2xl:rounded-2xl mb-4 max-w-[2000px] mx-auto w-full gap-3">
+    <nav className="flex sticky z-10 top-0 items-center justify-between bg-slate-700 py-2 px-4 2xl:rounded-2xl mb-4 max-w-[2000px] mx-auto w-full gap-3">
       {/* Logo */}
       <div className="flex items-center">
         <img
