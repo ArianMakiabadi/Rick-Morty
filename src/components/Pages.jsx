@@ -32,10 +32,10 @@ function Pages({ currentPage, setCurrentPage, pageCount }) {
   }
 
   return (
-    <div className="text-slate-200 flex justify-center gap-2 mt-5">
+    <div className="text-slate-200 text-xs xl:text-sm flex justify-center items-center gap-1 mt-5 mb-10">
       {/* Prev button */}
       <button
-        className="bg-gray-800 p-2 rounded-xl hover:bg-slate-600"
+        className="bg-gray-800 p-2 w-12 rounded-xl hover:bg-slate-600"
         onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
       >
         Prev
@@ -44,14 +44,14 @@ function Pages({ currentPage, setCurrentPage, pageCount }) {
       {/* Page numbers */}
       {pages.map((p, i) =>
         p === "..." ? (
-          <span key={`dots-${i}`} className="px-3 py-1">
+          <span key={`dots-${i}`} className="px-1">
             ...
           </span>
         ) : (
           <button
             key={`page-${i}`}
             onClick={() => setCurrentPage(p)}
-            className={`px-3 py-1 border rounded-xl ${
+            className={`px-2 py-2 w-8 rounded-xl ${
               p === currentPage
                 ? "bg-gray-500 text-slate-200"
                 : "bg-gray-800 hover:bg-slate-600"
@@ -64,7 +64,7 @@ function Pages({ currentPage, setCurrentPage, pageCount }) {
 
       {/* Next button */}
       <button
-        className="bg-gray-800 p-2 rounded-xl hover:bg-slate-600"
+        className="bg-gray-800 p-2 w-12 rounded-xl hover:bg-slate-600"
         onClick={() => setCurrentPage((p) => Math.min(p + 1, pageCount))}
       >
         Next
