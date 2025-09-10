@@ -6,11 +6,14 @@ import Navbar, { Favourites, Search, SearchCount } from "./components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Pages from "./components/Pages";
 
 function App() {
   const [characters, setCharacters] = useState([]);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState(null);
   const [favourites, setFavorites] = useState([]);
 
   function handleAddFavorites(selectedCharacter) {
@@ -18,7 +21,6 @@ function App() {
   }
 
   const isFavorite = favourites.map((fav) => fav.id).includes(selectedId);
-
   // Preventing CharacterList to scroll when CharacterDetails is open
   useEffect(() => {
     if (selectedId) {
@@ -36,10 +38,11 @@ function App() {
     async function getCharacters() {
       try {
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character?name=${query}`,
+          `https://rickandmortyapi.com/api/character?name=${query}&page=${currentPage}`,
           { signal }
         );
         setCharacters(data.results);
+        setPageCount(data.info.pages);
       } catch (err) {
         if (axios.isCancel(err)) return; // request was cancelled
         setCharacters([]);
@@ -54,7 +57,7 @@ function App() {
       controller.abort();
       clearTimeout(timeout);
     };
-  }, [query]);
+  }, [query, currentPage]);
 
   return (
     <div className="app">
@@ -76,6 +79,12 @@ function App() {
           isFavorite={isFavorite}
         />
       )}
+
+      <Pages
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageCount={pageCount}
+      />
     </div>
   );
 }
