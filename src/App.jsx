@@ -3,7 +3,7 @@ import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
 import Navbar, { Favourites, Search, SearchCount } from "./components/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
@@ -15,6 +15,12 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(null);
   const [favourites, setFavorites] = useState([]);
+
+  // Scrolling to the top of the page when page changes
+  const topRef = useRef(null);
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [currentPage]);
 
   function handleAddFavorites(selectedCharacter) {
     setFavorites((prev) => [...prev, selectedCharacter]);
@@ -61,6 +67,7 @@ function App() {
 
   return (
     <div className="app">
+      <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
       <Navbar>
         <Search
@@ -71,9 +78,7 @@ function App() {
         <SearchCount resultCount={characters.length} />
         <Favourites countFavourites={favourites.length} />
       </Navbar>
-
       <CharacterList allCharacters={characters} setSelectedId={setSelectedId} />
-
       {/* Rendering of CharacterDetails only when a character is selected */}
       {selectedId && (
         <CharacterDetails
@@ -83,7 +88,6 @@ function App() {
           isFavorite={isFavorite}
         />
       )}
-
       <Pages
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
