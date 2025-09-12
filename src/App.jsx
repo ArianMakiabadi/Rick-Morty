@@ -26,6 +26,10 @@ function App() {
     setFavorites((prev) => [...prev, selectedCharacter]);
   }
 
+  function handleRemoveFavorite(id) {
+    setFavorites((prevFavs) => prevFavs.filter((fav) => fav.id !== id));
+  }
+
   const isFavorite = favourites.map((fav) => fav.id).includes(selectedId);
   // Preventing CharacterList to scroll when CharacterDetails is open
   useEffect(() => {
@@ -76,7 +80,11 @@ function App() {
           setCurrentPage={setCurrentPage}
         />
         <SearchCount resultCount={characters.length} />
-        <Favourites countFavourites={favourites.length} />
+        <Favourites
+          favourites={favourites}
+          setSelectedId={setSelectedId}
+          onRemove={handleRemoveFavorite}
+        />
       </Navbar>
       <CharacterList allCharacters={characters} setSelectedId={setSelectedId} />
       {/* Rendering of CharacterDetails only when a character is selected */}
