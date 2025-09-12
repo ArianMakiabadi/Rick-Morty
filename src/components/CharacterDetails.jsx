@@ -105,7 +105,7 @@ function CharacterDetails({
           </div>
         </div>
         {/* Divider */}
-        <hr className="h-0.5 bg-gray-600 rounded-3xl my-0.5 mx-6"></hr>
+        <hr className="h-[1px] bg-gray-600 rounded-3xl my-0.5 mx-6"></hr>
 
         {/* Episodes Section */}
         <div className=" p-4 ">
