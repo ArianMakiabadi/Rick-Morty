@@ -2,7 +2,7 @@ import "./App.css";
 import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
-import Navbar, { Favourites, Search, SearchCount } from "./components/Navbar";
+import Navbar, { Favorites, Search, SearchCount } from "./components/Navbar";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -14,8 +14,8 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(null);
-  const [favourites, setFavorites] = useState(
-    () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
+  const [favorites, setFavorites] = useState(
+    () => JSON.parse(localStorage.getItem("FAVORITES")) || []
   );
 
   // Scrolling to the top of the page when page changes
@@ -32,7 +32,7 @@ function App() {
     setFavorites((prevFavs) => prevFavs.filter((fav) => fav.id !== id));
   }
 
-  const isFavorite = favourites.map((fav) => fav.id).includes(selectedId);
+  const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
   // Preventing CharacterList to scroll when CharacterDetails is open
   useEffect(() => {
     if (selectedId) {
@@ -71,10 +71,10 @@ function App() {
     };
   }, [query, currentPage]);
 
-  // saving favourites to localStorage
+  // saving favorites to localStorage
   useEffect(() => {
-    localStorage.setItem("FAVOURITES", JSON.stringify(favourites));
-  }, [favourites]);
+    localStorage.setItem("FAVORITES", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <div className="app">
@@ -87,8 +87,8 @@ function App() {
           setCurrentPage={setCurrentPage}
         />
         <SearchCount resultCount={characters.length} />
-        <Favourites
-          favourites={favourites}
+        <Favorites
+          favorites={favorites}
           setSelectedId={setSelectedId}
           onRemove={handleRemoveFavorite}
         />
