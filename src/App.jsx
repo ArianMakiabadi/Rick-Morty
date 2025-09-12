@@ -14,7 +14,9 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(null);
-  const [favourites, setFavorites] = useState([]);
+  const [favourites, setFavorites] = useState(
+    () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
+  );
 
   // Scrolling to the top of the page when page changes
   const topRef = useRef(null);
@@ -68,6 +70,11 @@ function App() {
       clearTimeout(timeout);
     };
   }, [query, currentPage]);
+
+  // saving favourites to localStorage
+  useEffect(() => {
+    localStorage.setItem("FAVOURITES", JSON.stringify(favourites));
+  }, [favourites]);
 
   return (
     <div className="app">
