@@ -94,7 +94,7 @@ export function Favorites({ setSelectedId, favorites, onRemove }) {
 function FavoriteCharacter({ setSelectedId, item, onRemove }) {
   return (
     <div
-      className="flex bg-slate-800 m-3 rounded-3xl cursor-pointer"
+      className="flex bg-slate-800 m-2 rounded-3xl cursor-pointer"
       onClick={() => {
         setSelectedId(item.id);
       }}
@@ -104,13 +104,13 @@ function FavoriteCharacter({ setSelectedId, item, onRemove }) {
         src={item.image}
         alt={item.name}
       />
-      <div className="flex flex-col justify-center ml-2">
+      <div className="flex flex-col justify-center ml-2 overflow-hidden">
         <h3 className="max-w-full">
           <span className="block w-full text-sm 2xl:text-2xl text-slate-200 truncate overflow-hidden whitespace-nowrap">
             {item.name}
           </span>
         </h3>
-        <div className="mx-auto text-slate-400 text-xs">
+        <div className=" text-slate-400 text-xs">
           <span
             className={`status ${
               item.status === "Dead"

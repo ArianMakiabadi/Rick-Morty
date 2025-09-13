@@ -800,6 +800,22 @@ video {
   max-width: 28rem;
 }
 
+.max-w-\[60\%\] {
+  max-width: 60%;
+}
+
+.max-w-\[90\%\] {
+  max-width: 90%;
+}
+
+.max-w-\[98\%\] {
+  max-width: 98%;
+}
+
+.max-w-\[95\%\] {
+  max-width: 95%;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -836,6 +852,10 @@ video {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .items-center {
