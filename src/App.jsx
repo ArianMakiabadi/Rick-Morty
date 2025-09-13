@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -14,9 +15,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(null);
-  const [favorites, setFavorites] = useState(
-    () => JSON.parse(localStorage.getItem("FAVORITES")) || []
-  );
+  const [favorites, setFavorites] = useLocalStorage("Favorites", []);
 
   // Scrolling to the top of the page when page changes
   const topRef = useRef(null);
@@ -70,11 +69,6 @@ function App() {
       clearTimeout(timeout);
     };
   }, [query, currentPage]);
-
-  // saving favorites to localStorage
-  useEffect(() => {
-    localStorage.setItem("FAVORITES", JSON.stringify(favorites));
-  }, [favorites]);
 
   return (
     <div className="app">
