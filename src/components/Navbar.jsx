@@ -62,15 +62,22 @@ export function Favorites({ setSelectedId, favorites, onRemove }) {
   return (
     <>
       <FavoritesModal onOpen={setIsOpen} open={isOpen}>
-        {favorites.map((item) => (
-          <FavoriteCharacter
-            key={item.id}
-            item={item}
-            setSelectedId={setSelectedId}
-            onRemove={onRemove}
-          />
-        ))}
+        {favorites.length === 0 ? (
+          <p className="text-slate-400 text-center pt-4">
+            Your favorites list is lonelier than Pickle Rick!
+          </p>
+        ) : (
+          favorites.map((item) => (
+            <FavoriteCharacter
+              key={item.id}
+              item={item}
+              setSelectedId={setSelectedId}
+              onRemove={onRemove}
+            />
+          ))
+        )}
       </FavoritesModal>
+
       <button
         className="relative text-rose-500"
         onClick={() => setIsOpen(true)}
