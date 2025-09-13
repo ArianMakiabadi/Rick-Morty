@@ -51,7 +51,7 @@ function CharacterDetails({
       onClick={() => setSelectedId(null)}
     >
       <div
-        className="max-w-[80%] max-h-[90%] w-full rounded-3xl flex flex-col bg-slate-800"
+        className="w-[80%] max-w-2xl max-h-[90%] rounded-3xl flex flex-col bg-slate-800"
         onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
       >
         {/* Character Info Section */}
@@ -61,12 +61,12 @@ function CharacterDetails({
             src={selectedCharacter.image}
             alt={selectedCharacter.name}
           />
-          <div className="flex flex-col justify-center items-center lg:items-start gap-2 p-4">
+          <div className="flex flex-col justify-center items-center lg:items-start p-2">
             <h3 className="flex items-center text-white text-xl lg:text-3xl text-nowrap">
               <span>{genderIcons[selectedCharacter.gender]}</span>
               <span>&nbsp;{selectedCharacter.name}</span>
             </h3>
-            <div className="text-slate-200 text-xs lg:text-sm">
+            <div className="text-slate-200 text-xs lg:text-sm mb-2">
               <span
                 className={`status ${
                   selectedCharacter.status === "Dead"
@@ -94,7 +94,7 @@ function CharacterDetails({
               </p>
             </div>
 
-            <div className="text-slate-400">
+            <div className="text-slate-400 mt-4">
               {isFavorite ? (
                 <p className="flex flex-row text-xs">
                   <Check stroke="#28A745" className="w-4 pb-1" />
