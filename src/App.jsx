@@ -3,18 +3,17 @@ import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
 import Navbar, { Favorites, Search, SearchCount } from "./components/Navbar";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
+import useCharacters from "./hooks/useCharacters";
 
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState(null);
+  const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useLocalStorage("Favorites", []);
+  const { characters, pageCount, currentPage, setCurrentPage } =
+    useCharacters(query);
 
   // Scrolling to the top of the page when page changes
   const topRef = useRef(null);
@@ -39,35 +38,6 @@ function App() {
       document.body.classList.remove("overflow-hidden");
     }
   }, [selectedId]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const DEBOUNCE_DELAY = 300; // debounce delay
-
-    async function getCharacters() {
-      try {
-        const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character?name=${query}&page=${currentPage}`,
-          { signal }
-        );
-        setCharacters(data.results);
-        setPageCount(data.info.pages);
-      } catch (err) {
-        if (axios.isCancel(err)) return; // request was cancelled
-        setCharacters([]);
-        toast.error(err.response.data.error);
-      }
-    }
-
-    // setup debounce timeout
-    const timeout = setTimeout(getCharacters, DEBOUNCE_DELAY);
-    // Cleanup: abort request + clear timeout
-    return () => {
-      controller.abort();
-      clearTimeout(timeout);
-    };
-  }, [query, currentPage]);
 
   return (
     <div>
