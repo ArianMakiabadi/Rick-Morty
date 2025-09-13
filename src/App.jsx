@@ -1,4 +1,3 @@
-import "./App.css";
 import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
@@ -71,7 +70,7 @@ function App() {
   }, [query, currentPage]);
 
   return (
-    <div className="app">
+    <div>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
       <Navbar>
