@@ -49,12 +49,13 @@ export function Search({ query, setQuery, setCurrentPage }) {
   );
 }
 
-export function SearchCount({ resultCount }) {
-  return (
-    <div className="text-slate-400 text-[0.7rem] whitespace-nowrap">
-      Found {resultCount} characters
-    </div>
-  );
+export function SearchCount({ matchCount }) {
+  if (matchCount !== null)
+    return (
+      <div className="text-slate-400 text-[0.7rem] whitespace-nowrap">
+        Found {matchCount} characters
+      </div>
+    );
 }
 
 export function Favorites({ setSelectedId, favorites, onRemove }) {

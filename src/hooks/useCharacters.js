@@ -6,6 +6,7 @@ export default function useCharacters(query) {
   const [characters, setCharacters] = useState([]);
   const [pageCount, setPageCount] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [matchCount, setMatchCount] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -20,6 +21,11 @@ export default function useCharacters(query) {
         );
         setCharacters(data.results);
         setPageCount(data.info.pages);
+        if (query !== "") {
+          setMatchCount(data.info.count);
+        } else {
+          setMatchCount(null);
+        }
       } catch (err) {
         if (axios.isCancel(err)) return; // request was cancelled
         setCharacters([]);
@@ -36,5 +42,5 @@ export default function useCharacters(query) {
     };
   }, [query, currentPage]);
 
-  return { characters, pageCount, currentPage, setCurrentPage };
+  return { characters, pageCount, currentPage, setCurrentPage, matchCount };
 }

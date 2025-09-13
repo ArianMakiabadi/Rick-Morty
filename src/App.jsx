@@ -12,7 +12,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useLocalStorage("Favorites", []);
-  const { characters, pageCount, currentPage, setCurrentPage } =
+  const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
     useCharacters(query);
 
   // Scrolling to the top of the page when page changes
@@ -49,7 +49,7 @@ function App() {
           setQuery={setQuery}
           setCurrentPage={setCurrentPage}
         />
-        <SearchCount resultCount={characters.length} />
+        <SearchCount matchCount={matchCount} />
         <Favorites
           favorites={favorites}
           setSelectedId={setSelectedId}
