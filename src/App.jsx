@@ -35,11 +35,10 @@ function App() {
 
   return (
     <div>
-      {/* Preventing CharacterList to scroll when CharacterDetails is open */}
-      <ScrollLock active={!!selectedId} />
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
       <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>
+        <ScrollLock />
         <Navbar>
           <Search
             query={query}
