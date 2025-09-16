@@ -1,17 +1,14 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Check, CircleHelp, Mars, Venus } from "lucide-react";
+import { SelectedIdContext } from "../App";
 
-function CharacterDetails({
-  selectedId,
-  setSelectedId,
-  onAddFavorite,
-  isFavorite,
-}) {
+function CharacterDetails({ onAddFavorite, isFavorite }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [episodes, setEpisodes] = useState([]);
+  const { selectedId, setSelectedId } = useContext(SelectedIdContext);
 
   useEffect(() => {
     async function fetchData() {

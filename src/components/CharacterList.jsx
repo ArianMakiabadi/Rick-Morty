@@ -1,8 +1,11 @@
-function CharacterList({ allCharacters, setSelectedId }) {
+import { useContext } from "react";
+import { SelectedIdContext } from "../App";
+
+function CharacterList({ allCharacters }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mx-auto flex-1 px-8">
       {allCharacters.map((item) => (
-        <Character key={item.id} item={item} setSelectedId={setSelectedId} />
+        <Character key={item.id} item={item} />
       ))}
     </div>
   );
@@ -10,7 +13,9 @@ function CharacterList({ allCharacters, setSelectedId }) {
 
 export default CharacterList;
 
-function Character({ item, setSelectedId }) {
+function Character({ item }) {
+  const { setSelectedId } = useContext(SelectedIdContext);
+
   return (
     <div
       className="shadow-lg bg-slate-800 hover:bg-slate-700 p-4 rounded-3xl hover:scale-105 transition-transform duration-200 cursor-pointer flex flex-col items-center"

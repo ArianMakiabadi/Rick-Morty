@@ -2,11 +2,12 @@ import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
 import Navbar, { Favorites, Search, SearchCount } from "./components/Navbar";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useCharacters from "./hooks/useCharacters";
+export const SelectedIdContext = createContext();
 
 function App() {
   const [selectedId, setSelectedId] = useState(null);
@@ -44,29 +45,25 @@ function App() {
     <div>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
-      <Navbar>
-        <Search
-          query={query}
-          setQuery={setQuery}
-          setCurrentPage={setCurrentPage}
-        />
-        <SearchCount matchCount={matchCount} />
-        <Favorites
-          favorites={favorites}
-          setSelectedId={setSelectedId}
-          onRemove={handleRemoveFavorite}
-        />
-      </Navbar>
-      <CharacterList allCharacters={characters} setSelectedId={setSelectedId} />
-      {/* Rendering of CharacterDetails only when a character is selected */}
-      {selectedId && (
-        <CharacterDetails
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-          onAddFavorite={handleAddFavorites}
-          isFavorite={isFavorite}
-        />
-      )}
+      <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>
+        <Navbar>
+          <Search
+            query={query}
+            setQuery={setQuery}
+            setCurrentPage={setCurrentPage}
+          />
+          <SearchCount matchCount={matchCount} />
+          <Favorites favorites={favorites} onRemove={handleRemoveFavorite} />
+        </Navbar>
+        <CharacterList allCharacters={characters} />
+        {/* Rendering of CharacterDetails only when a character is selected */}
+        {selectedId && (
+          <CharacterDetails
+            onAddFavorite={handleAddFavorites}
+            isFavorite={isFavorite}
+          />
+        )}
+      </SelectedIdContext.Provider>
       <Pages
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

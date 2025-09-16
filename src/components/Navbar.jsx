@@ -1,6 +1,7 @@
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import FavoritesModal from "./FavoritesModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SelectedIdContext } from "../App";
 
 function Navbar({ children }) {
   // children[0] → Search
@@ -58,7 +59,7 @@ export function SearchCount({ matchCount }) {
     );
 }
 
-export function Favorites({ setSelectedId, favorites, onRemove }) {
+export function Favorites({ favorites, onRemove }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -69,12 +70,7 @@ export function Favorites({ setSelectedId, favorites, onRemove }) {
           </p>
         ) : (
           favorites.map((item) => (
-            <FavoriteCharacter
-              key={item.id}
-              item={item}
-              setSelectedId={setSelectedId}
-              onRemove={onRemove}
-            />
+            <FavoriteCharacter key={item.id} item={item} onRemove={onRemove} />
           ))
         )}
       </FavoritesModal>
@@ -92,7 +88,9 @@ export function Favorites({ setSelectedId, favorites, onRemove }) {
   );
 }
 
-function FavoriteCharacter({ setSelectedId, item, onRemove }) {
+function FavoriteCharacter({ item, onRemove }) {
+  const { setSelectedId } = useContext(SelectedIdContext);
+
   return (
     <div
       className="flex bg-slate-800 m-2 rounded-3xl cursor-pointer"
