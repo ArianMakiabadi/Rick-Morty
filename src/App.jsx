@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useCharacters from "./hooks/useCharacters";
+import ScrollLock from "./components/ScrollLock";
 export const SelectedIdContext = createContext();
 
 function App() {
@@ -33,10 +34,9 @@ function App() {
   const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
 
   return (
-    // Preventing CharacterList to scroll when CharacterDetails is open
-    <div
-      className={`${selectedId ? "overflow-hidden h-screen" : "overflow-auto"}`}
-    >
+    <div>
+      {/* Preventing CharacterList to scroll when CharacterDetails is open */}
+      <ScrollLock active={!!selectedId} />
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
       <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>

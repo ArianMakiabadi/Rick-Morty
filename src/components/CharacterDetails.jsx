@@ -40,7 +40,7 @@ function CharacterDetails({ onAddFavorite, isFavorite }) {
     unknown: <CircleHelp stroke="#A9A9A9" />,
   };
 
-  if (!selectedCharacter) return <p>Please select a character!</p>;
+  if (!selectedCharacter) return null;
 
   return (
     <div
