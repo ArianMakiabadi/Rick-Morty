@@ -32,10 +32,11 @@ function App() {
   const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
   // Preventing CharacterList to scroll when CharacterDetails is open
   useEffect(() => {
+    const target = document.documentElement; // <html>
     if (selectedId) {
-      document.body.classList.add("overflow-hidden");
+      target.classList.add("overflow-hidden");
     } else {
-      document.body.classList.remove("overflow-hidden");
+      target.classList.remove("overflow-hidden");
     }
   }, [selectedId]);
 
