@@ -31,18 +31,12 @@ function App() {
   }
 
   const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
-  // Preventing CharacterList to scroll when CharacterDetails is open
-  useEffect(() => {
-    const target = document.documentElement; // <html>
-    if (selectedId) {
-      target.classList.add("overflow-hidden");
-    } else {
-      target.classList.remove("overflow-hidden");
-    }
-  }, [selectedId]);
 
   return (
-    <div>
+    // Preventing CharacterList to scroll when CharacterDetails is open
+    <div
+      className={`${selectedId ? "overflow-hidden h-screen" : "overflow-auto"}`}
+    >
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
       <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>
