@@ -12,23 +12,25 @@ function CharacterDetails({ onAddFavorite, isFavorite }) {
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const characters = await axios.get(
-          `https://rickandmortyapi.com/api/character/${selectedId}`
-        );
-        setSelectedCharacter(characters.data);
+      if (selectedId !== null) {
+        try {
+          const characters = await axios.get(
+            `https://rickandmortyapi.com/api/character/${selectedId}`
+          );
+          setSelectedCharacter(characters.data);
 
-        const episodeIds = characters.data.episode.map((e) =>
-          e.split("/").at(-1)
-        );
-        const { data: episodeData } = await axios.get(
-          `https://rickandmortyapi.com/api/episode/${episodeIds}`
-        );
+          const episodeIds = characters.data.episode.map((e) =>
+            e.split("/").at(-1)
+          );
+          const { data: episodeData } = await axios.get(
+            `https://rickandmortyapi.com/api/episode/${episodeIds}`
+          );
 
-        // Normalize: always an array
-        setEpisodes([episodeData].flat());
-      } catch (err) {
-        toast.error(err.response.data.error);
+          // Normalize: always an array
+          setEpisodes([episodeData].flat());
+        } catch (err) {
+          toast.error(err.response.data.error);
+        }
       }
     }
     fetchData();
@@ -40,7 +42,7 @@ function CharacterDetails({ onAddFavorite, isFavorite }) {
     unknown: <CircleHelp stroke="#A9A9A9" />,
   };
 
-  if (!selectedCharacter) return null;
+  if (!selectedCharacter || !selectedId) return null;
 
   return (
     <div

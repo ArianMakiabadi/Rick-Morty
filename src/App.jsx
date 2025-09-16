@@ -50,13 +50,10 @@ function App() {
           <Favorites favorites={favorites} onRemove={handleRemoveFavorite} />
         </Navbar>
         <CharacterList allCharacters={characters} />
-        {/* Rendering of CharacterDetails only when a character is selected */}
-        {selectedId && (
-          <CharacterDetails
-            onAddFavorite={handleAddFavorites}
-            isFavorite={isFavorite}
-          />
-        )}
+        <CharacterDetails
+          onAddFavorite={handleAddFavorites}
+          isFavorite={isFavorite}
+        />
       </SelectedIdContext.Provider>
       <Pages
         currentPage={currentPage}
