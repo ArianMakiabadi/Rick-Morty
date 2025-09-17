@@ -13,6 +13,8 @@ import SelectedIdProvider from "./Context/SelectedIdProvider";
 function App() {
   const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useLocalStorage("Favorites", []);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+
   const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
     useCharacters(query);
 
@@ -31,32 +33,35 @@ function App() {
   }
 
   return (
-    <div>
+    <SelectedIdProvider>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
-      <SelectedIdProvider>
-        <ScrollLock />
-        <Navbar>
-          <Search
-            query={query}
-            setQuery={setQuery}
-            setCurrentPage={setCurrentPage}
-          />
-          <SearchCount matchCount={matchCount} />
-          <Favorites favorites={favorites} onRemove={handleRemoveFavorite} />
-        </Navbar>
-        <CharacterList allCharacters={characters} />
-        <CharacterDetails
-          onAddFavorite={handleAddFavorites}
-          favorites={favorites}
+      <ScrollLock isFavoritesOpen={isFavoritesOpen} />
+      <Navbar>
+        <Search
+          query={query}
+          setQuery={setQuery}
+          setCurrentPage={setCurrentPage}
         />
-      </SelectedIdProvider>
+        <SearchCount matchCount={matchCount} />
+        <Favorites
+          favorites={favorites}
+          onRemove={handleRemoveFavorite}
+          isOpen={isFavoritesOpen}
+          setIsOpen={setIsFavoritesOpen}
+        />
+      </Navbar>
+      <CharacterList allCharacters={characters} />
+      <CharacterDetails
+        onAddFavorite={handleAddFavorites}
+        favorites={favorites}
+      />
       <Pages
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         pageCount={pageCount}
       />
-    </div>
+    </SelectedIdProvider>
   );
 }
 

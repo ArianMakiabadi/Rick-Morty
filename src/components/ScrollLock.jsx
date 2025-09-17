@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import useSelectedId from "../hooks/useSelectedId";
 
-function ScrollLock() {
+function ScrollLock({ isFavoritesOpen }) {
   const { selectedId } = useSelectedId();
-  const active = !!selectedId;
+  const active = !!selectedId || isFavoritesOpen;
   useEffect(() => {
     const target = document.documentElement; // <html>
     if (active) {

@@ -59,8 +59,7 @@ export function SearchCount({ matchCount }) {
     );
 }
 
-export function Favorites({ favorites, onRemove }) {
-  const [isOpen, setIsOpen] = useState(false);
+export function Favorites({ favorites, onRemove, isOpen, setIsOpen }) {
   return (
     <>
       <FavoritesModal onOpen={setIsOpen} open={isOpen}>
