@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { useContext } from "react";
-import { SelectedIdContext } from "../App";
+import useSelectedId from "../hooks/useSelectedId";
 
 function ScrollLock() {
-  const { selectedId } = useContext(SelectedIdContext);
+  const { selectedId } = useSelectedId();
   const active = !!selectedId;
   useEffect(() => {
     const target = document.documentElement; // <html>

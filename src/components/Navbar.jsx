@@ -1,7 +1,7 @@
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import FavoritesModal from "./FavoritesModal";
-import { useContext, useState } from "react";
-import { SelectedIdContext } from "../App";
+import { useState } from "react";
+import useSelectedId from "../hooks/useSelectedId";
 
 function Navbar({ children }) {
   // children[0] → Search
@@ -89,7 +89,7 @@ export function Favorites({ favorites, onRemove }) {
 }
 
 function FavoriteCharacter({ item, onRemove }) {
-  const { setSelectedId } = useContext(SelectedIdContext);
+  const { setSelectedId } = useSelectedId();
 
   return (
     <div

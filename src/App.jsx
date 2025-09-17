@@ -2,16 +2,15 @@ import "./output.css";
 import CharacterList from "./components/CharacterList";
 import CharacterDetails from "./components/CharacterDetails";
 import Navbar, { Favorites, Search, SearchCount } from "./components/Navbar";
-import { createContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useCharacters from "./hooks/useCharacters";
 import ScrollLock from "./components/ScrollLock";
-export const SelectedIdContext = createContext();
+import SelectedIdProvider from "./Context/SelectedIdProvider";
 
 function App() {
-  const [selectedId, setSelectedId] = useState(null);
   const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useLocalStorage("Favorites", []);
   const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
@@ -31,13 +30,11 @@ function App() {
     setFavorites((prevFavs) => prevFavs.filter((fav) => fav.id !== id));
   }
 
-  const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
-
   return (
     <div>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
-      <SelectedIdContext.Provider value={{ selectedId, setSelectedId }}>
+      <SelectedIdProvider>
         <ScrollLock />
         <Navbar>
           <Search
@@ -51,9 +48,9 @@ function App() {
         <CharacterList allCharacters={characters} />
         <CharacterDetails
           onAddFavorite={handleAddFavorites}
-          isFavorite={isFavorite}
+          favorites={favorites}
         />
-      </SelectedIdContext.Provider>
+      </SelectedIdProvider>
       <Pages
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

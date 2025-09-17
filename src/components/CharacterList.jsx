@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { SelectedIdContext } from "../App";
+import useSelectedId from "../hooks/useSelectedId";
 
 function CharacterList({ allCharacters }) {
   return (
@@ -14,7 +13,7 @@ function CharacterList({ allCharacters }) {
 export default CharacterList;
 
 function Character({ item }) {
-  const { setSelectedId } = useContext(SelectedIdContext);
+  const { setSelectedId } = useSelectedId();
 
   return (
     <div
