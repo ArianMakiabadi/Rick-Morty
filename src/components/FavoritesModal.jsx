@@ -1,6 +1,23 @@
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { XIcon } from "lucide-react";
+import { createRef, useEffect } from "react";
 
 function FavoritesModal({ open, onOpen, children }) {
+  const ref = createRef(null);
+
+  // lock scroll when modal opens
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (open) {
+      disableBodyScroll(el, { reserveScrollBarGap: true });
+    }
+    return () => {
+      enableBodyScroll(el);
+    };
+  }, [open]);
+
   if (!open) return null;
   return (
     <div className="flex justify-start">
@@ -17,7 +34,9 @@ function FavoritesModal({ open, onOpen, children }) {
         </div>
         {/* Divider */}
         <hr className="h-[1px] bg-slate-600 rounded-3xl my-0.5 mx-6"></hr>
-        <div className="max-h-[80%]  flex-1 overflow-y-auto">{children}</div>
+        <div ref={ref} className="max-h-[80%]  flex-1 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

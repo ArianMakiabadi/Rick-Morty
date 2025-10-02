@@ -7,7 +7,6 @@ import { Toaster } from "react-hot-toast";
 import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useCharacters from "./hooks/useCharacters";
-import ScrollLock from "./components/ScrollLock";
 import SelectedIdProvider from "./Context/SelectedIdProvider";
 
 function App() {
@@ -36,7 +35,6 @@ function App() {
     <SelectedIdProvider>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
-      <ScrollLock isFavoritesOpen={isFavoritesOpen} />
       <Navbar>
         <Search
           query={query}

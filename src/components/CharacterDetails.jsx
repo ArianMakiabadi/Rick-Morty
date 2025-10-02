@@ -1,15 +1,17 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Check, CircleHelp, Mars, Venus } from "lucide-react";
 import useSelectedId from "../hooks/useSelectedId";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 function CharacterDetails({ onAddFavorite, favorites }) {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [episodes, setEpisodes] = useState([]);
   const { selectedId, setSelectedId } = useSelectedId();
   const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
+  const detailsRef = useRef(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,6 +39,19 @@ function CharacterDetails({ onAddFavorite, favorites }) {
     fetchData();
   }, [selectedId]);
 
+  // lock scroll when modal opens
+  useEffect(() => {
+    const el = detailsRef.current;
+    if (!el) return;
+
+    if (selectedCharacter) {
+      disableBodyScroll(el, { reserveScrollBarGap: true });
+    }
+    return () => {
+      enableBodyScroll(el);
+    };
+  }, [selectedCharacter]);
+
   const genderIcons = {
     Male: <Mars stroke="#1E90FF" />,
     Female: <Venus stroke="#FF69B4" />,
@@ -48,7 +63,10 @@ function CharacterDetails({ onAddFavorite, favorites }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-      onClick={() => setSelectedId(null)}
+      onClick={() => {
+        setSelectedId(null);
+        setSelectedCharacter(null);
+      }}
     >
       <div
         className="w-[80%] max-w-2xl max-h-[90%] rounded-3xl flex flex-col bg-slate-800"
@@ -124,7 +142,10 @@ function CharacterDetails({ onAddFavorite, favorites }) {
               <ArrowUpCircleIcon className="w-6 text-slate-300 transition-all duration-300 ease-in-out" />
             </button>
           </div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-40 overflow-y-auto pr-2">
+          <ul
+            ref={detailsRef}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-40 overflow-y-auto pr-2"
+          >
             {episodes.map((item) => (
               <li
                 className="bg-gray-700 rounded-xl p-3 shadow hover:bg-gray-600 transition"
