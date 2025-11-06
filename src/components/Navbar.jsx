@@ -1,9 +1,16 @@
 import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import FavoritesModal from "./FavoritesModal";
-import { useState } from "react";
+import Filters from "./Filters";
 import useSelectedId from "../hooks/useSelectedId";
 
-function Navbar({ children }) {
+function Navbar({
+  children,
+  status,
+  setStatus,
+  gender,
+  setGender,
+  setCurrentPage,
+}) {
   // children[0] → Search
   // children[1] → SearchCount
   // children[2] → Favorites
@@ -19,11 +26,20 @@ function Navbar({ children }) {
         />
       </div>
 
-      {/* Search */}
+      {/* Search + Filters */}
       <div className="flex justify-center items-center gap-4">
         <div className="flex-1 max-w-md">{children[0]}</div>
         {/* Results only on sm+ */}
         <div className="hidden sm:block">{children[1]}</div>
+
+        {/* Filters component */}
+        <Filters
+          status={status}
+          setStatus={setStatus}
+          gender={gender}
+          setGender={setGender}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
 
       {/* Right side */}

@@ -11,11 +11,13 @@ import SelectedIdProvider from "./Context/SelectedIdProvider";
 
 function App() {
   const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("");
+  const [gender, setGender] = useState("");
   const [favorites, setFavorites] = useLocalStorage("Favorites", []);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
-    useCharacters(query);
+    useCharacters(query, status, gender);
 
   // Scrolling to the top of the page when page changes
   const topRef = useRef(null);
@@ -35,7 +37,13 @@ function App() {
     <SelectedIdProvider>
       <div ref={topRef}></div> {/* used to scroll to the top of the page*/}
       <Toaster />
-      <Navbar>
+      <Navbar
+        status={status}
+        setStatus={setStatus}
+        gender={gender}
+        setGender={setGender}
+        setCurrentPage={setCurrentPage}
+      >
         <Search
           query={query}
           setQuery={setQuery}
