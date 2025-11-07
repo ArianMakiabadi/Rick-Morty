@@ -720,6 +720,10 @@ video {
   height: 1px;
 }
 
+.h-5 {
+  height: 1.25rem;
+}
+
 .max-h-14 {
   max-height: 3.5rem;
 }
@@ -1233,6 +1237,10 @@ video {
 @media (min-width: 640px) {
   .sm\:block {
     display: block;
+  }
+
+  .sm\:hidden {
+    display: none;
   }
 
   .sm\:max-h-full {

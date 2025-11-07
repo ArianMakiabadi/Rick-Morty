@@ -2,6 +2,7 @@ import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import FavoritesModal from "./FavoritesModal";
 import Filters from "./Filters";
 import useSelectedId from "../hooks/useSelectedId";
+import { FiSearch } from "react-icons/fi";
 
 function Navbar({
   children,
@@ -28,7 +29,10 @@ function Navbar({
 
       {/* Search + Filters */}
       <div className="flex justify-center items-center gap-4">
-        <div className="flex-1 max-w-md">{children[0]}</div>
+        <button className="sm:hidden text-slate-400">
+          <FiSearch className="w-5 h-5" />
+        </button>
+        <div className="flex-1 hidden sm:block max-w-md">{children[0]}</div>
         {/* Results only on sm+ */}
         <div className="hidden sm:block">{children[1]}</div>
 
