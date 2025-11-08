@@ -2,7 +2,8 @@ import { HeartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import FavoritesModal from "./FavoritesModal";
 import Filters from "./Filters";
 import useSelectedId from "../hooks/useSelectedId";
-import { FiSearch } from "react-icons/fi";
+import { FiFilter } from "react-icons/fi";
+import { useState } from "react";
 
 function Navbar({
   children,
@@ -16,38 +17,56 @@ function Navbar({
   // children[1] → SearchCount
   // children[2] → Favorites
 
+  const [showFilters, setShowFilters] = useState(false);
+
   return (
-    <nav className="flex sticky z-10 top-0 items-center justify-between bg-slate-700 py-2 px-4 2xl:rounded-2xl mb-4 max-w-[2000px] mx-auto w-full gap-3">
-      {/* Logo */}
-      <div className="flex items-center">
-        <img
-          src="RickMorty.svg"
-          alt="Logo"
-          className="w-8 h-8 md:w-10 md:h-10"
-        />
+    <nav className="flex flex-col sticky z-10 top-0 bg-slate-700 py-2 px-4 2xl:rounded-2xl mb-4 max-w-[2000px] mx-auto w-full gap-3">
+      <div className="flex items-center justify-between w-full gap-3">
+        <div className="flex items-center">
+          <img
+            src="RickMorty.svg"
+            alt="Logo"
+            className="w-8 h-8 md:w-10 md:h-10"
+          />
+        </div>
+
+        <div className="flex items-center justify-center gap-4 flex-1">
+          <div className="flex-1 max-w-md">{children[0]}</div>
+
+          <div className="flex items-center">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="sm:hidden text-slate-300 hover:text-white transition"
+            >
+              <FiFilter className="w-6 h-6" />
+            </button>
+
+            <div className="hidden sm:block">
+              <Filters
+                status={status}
+                setStatus={setStatus}
+                gender={gender}
+                setGender={setGender}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">{children[2]}</div>
       </div>
 
-      {/* Search + Filters */}
-      <div className="flex justify-center items-center gap-4">
-        <button className="sm:hidden text-slate-400">
-          <FiSearch className="w-5 h-5" />
-        </button>
-        <div className="flex-1 hidden sm:block max-w-md">{children[0]}</div>
-        {/* Results only on sm+ */}
-        <div className="hidden sm:block">{children[1]}</div>
-
-        {/* Filters component */}
-        <Filters
-          status={status}
-          setStatus={setStatus}
-          gender={gender}
-          setGender={setGender}
-          setCurrentPage={setCurrentPage}
-        />
-      </div>
-
-      {/* Right side */}
-      <div className="flex items-center gap-4">{children[2]}</div>
+      {showFilters && (
+        <div className="sm:hidden bg-slate-700 p-4">
+          <Filters
+            status={status}
+            setStatus={setStatus}
+            gender={gender}
+            setGender={setGender}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      )}
     </nav>
   );
 }
