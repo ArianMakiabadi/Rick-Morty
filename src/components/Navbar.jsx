@@ -21,7 +21,7 @@ function Navbar({
 
   return (
     <nav className="flex flex-col sticky z-10 top-0 bg-slate-700 py-2 px-4 2xl:rounded-2xl mb-4 max-w-[2000px] mx-auto w-full gap-3">
-      <div className="flex items-center justify-between w-full gap-3">
+      <div className="flex items-center justify-between w-full gap-3 relative">
         <div className="flex items-center">
           <img
             src="RickMorty.svg"
@@ -52,7 +52,7 @@ function Navbar({
             </div>
           </div>
         </div>
-
+        <div className="hidden xl:block absolute right-20">{children[1]}</div>
         <div className="flex items-center gap-4">{children[2]}</div>
       </div>
 
