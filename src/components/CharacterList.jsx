@@ -16,7 +16,7 @@ function Character({ item }) {
   const { setSelectedId } = useSelectedId();
 
   return (
-    <div
+    <button
       className="shadow-lg bg-slate-800 hover:bg-slate-700 p-4 rounded-3xl hover:scale-105 transition-transform duration-200 cursor-pointer flex flex-col items-center"
       onClick={() => setSelectedId(item.id)}
     >
@@ -43,6 +43,6 @@ function Character({ item }) {
         <span> {item.status}</span>
         <span> - {item.species}</span>
       </div>
-    </div>
+    </button>
   );
 }

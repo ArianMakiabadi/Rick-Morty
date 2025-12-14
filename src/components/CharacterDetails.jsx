@@ -52,6 +52,20 @@ function CharacterDetails({ onAddFavorite, favorites }) {
     };
   }, [selectedCharacter]);
 
+  useEffect(() => {
+    if (!selectedCharacter) return;
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedId(null);
+        setSelectedCharacter(null);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedCharacter, setSelectedId]);
+
   const genderIcons = {
     Male: <Mars stroke="#1E90FF" />,
     Female: <Venus stroke="#FF69B4" />,

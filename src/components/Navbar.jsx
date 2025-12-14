@@ -131,9 +131,17 @@ function FavoriteCharacter({ item, onRemove }) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className="flex bg-slate-800 m-2 rounded-3xl cursor-pointer"
       onClick={() => {
         setSelectedId(item.id);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setSelectedId(item.id);
+        }
       }}
     >
       <img

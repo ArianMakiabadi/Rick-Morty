@@ -18,6 +18,19 @@ function FavoritesModal({ open, onOpen, children }) {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, onOpen]);
+
   if (!open) return null;
   return (
     <div className="flex justify-start">
