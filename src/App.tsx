@@ -8,12 +8,16 @@ import Pages from "./components/Pages";
 import useLocalStorage from "./hooks/useLocalStorage";
 import useCharacters from "./hooks/useCharacters";
 import SelectedIdProvider from "./Context/SelectedIdProvider";
+import { Character } from "./types/Character";
 
 function App() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
   const [gender, setGender] = useState("");
-  const [favorites, setFavorites] = useLocalStorage("Favorites", []);
+  const [favorites, setFavorites] = useLocalStorage<Character[]>(
+    "Favorites",
+    []
+  );
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
