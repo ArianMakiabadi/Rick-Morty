@@ -1,6 +1,15 @@
 import useSelectedId from "../hooks/useSelectedId";
+import type { Character } from "../types/Character";
 
-function CharacterList({ allCharacters }) {
+type CharacterListProps = {
+  allCharacters: Character[];
+};
+
+type CharacterProps = {
+  item: Character;
+};
+
+function CharacterList({ allCharacters }: CharacterListProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mx-auto flex-1 px-8">
       {allCharacters.map((item) => (
@@ -12,7 +21,7 @@ function CharacterList({ allCharacters }) {
 
 export default CharacterList;
 
-function Character({ item }) {
+function Character({ item }: CharacterProps) {
   const { setSelectedId } = useSelectedId();
 
   return (
@@ -36,8 +45,8 @@ function Character({ item }) {
             item.status === "Dead"
               ? "bg-rose-600"
               : item.status === "Alive"
-              ? "bg-green-600"
-              : "bg-yellow-400"
+                ? "bg-green-600"
+                : "bg-yellow-400"
           }`}
         ></span>
         <span> {item.status}</span>
