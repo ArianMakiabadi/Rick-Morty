@@ -13,7 +13,7 @@ import { SelectedIdContext } from "../Context/SelectedIdProvider";
 
 export default function useSelectedId() {
   const context = useContext(SelectedIdContext);
-  if (context === undefined)
+  if (context === null)
     throw new Error("Context was used outside of SelectedIdProvider");
   return context;
 }
