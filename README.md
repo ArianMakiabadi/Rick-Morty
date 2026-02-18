@@ -33,7 +33,7 @@ package.json
 tailwind.config.js
 vite.config.js
 data/
-  data.js
+  data.ts
 public/
 src/
   App.jsx
@@ -110,7 +110,7 @@ package.json
 tailwind.config.js
 vite.config.js
 data/
-  data.js
+  data.ts
 public/
 src/
   App.jsx
