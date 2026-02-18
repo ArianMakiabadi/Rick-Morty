@@ -9,7 +9,7 @@ export default function useCharacters(
   gender: Character["gender"],
 ) {
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [pageCount, setPageCount] = useState<number | null>(null);
+  const [pageCount, setPageCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [matchCount, setMatchCount] = useState<number | null>(null);
 
