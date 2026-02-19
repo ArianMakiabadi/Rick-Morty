@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Character } from "../types/Character";
 
-export default function useCharacters(query, status, gender) {
-  const [characters, setCharacters] = useState([]);
-  const [pageCount, setPageCount] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [matchCount, setMatchCount] = useState(null);
+export default function useCharacters(
+  query: string,
+  status: Character["status"],
+  gender: Character["gender"],
+) {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [pageCount, setPageCount] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [matchCount, setMatchCount] = useState<number | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -20,7 +25,7 @@ export default function useCharacters(query, status, gender) {
         if (query) params.append("name", query);
         if (status) params.append("status", status);
         if (gender) params.append("gender", gender);
-        params.append("page", currentPage);
+        params.append("page", currentPage.toString());
 
         const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
         const { data } = await axios.get(url, { signal });
@@ -37,7 +42,11 @@ export default function useCharacters(query, status, gender) {
         if (axios.isCancel(err)) return; // request was cancelled
         setCharacters([]);
         // guard in case response isn't present
-        const msg = err?.response?.data?.error || "Failed to fetch characters";
+        let msg = "Failed to fetch characters";
+
+        if (axios.isAxiosError(err)) {
+          msg = err.response?.data?.error || msg;
+        }
         toast.error(msg);
       }
     }
