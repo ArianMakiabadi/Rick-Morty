@@ -1,8 +1,14 @@
-function Pages({ currentPage, setCurrentPage, pageCount }) {
+type PagesProps = {
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  pageCount: number;
+};
+
+function Pages({ currentPage, setCurrentPage, pageCount }: PagesProps) {
   const pages = getPagination(currentPage, pageCount);
-  function getPagination(current, total) {
+  function getPagination(current: number, total: number) {
     const delta = 2; // how many pages to show around current
-    const range = [];
+    const range: (number | "...")[] = [];
 
     // Always show first page
     range.push(1);
@@ -59,9 +65,8 @@ function Pages({ currentPage, setCurrentPage, pageCount }) {
           >
             {p}
           </button>
-        )
+        ),
       )}
-
       {/* Next button */}
       <button
         className="bg-gray-800 p-2 w-12 rounded-xl hover:bg-slate-600"

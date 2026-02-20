@@ -6,10 +6,10 @@ export type CharacterLocation = {
 export type Character = {
   id: number;
   name: string;
-  status: "Alive" | "Dead" | "unknown";
+  status: "Alive" | "Dead" | "unknown" | "";
   species: string;
   type: string;
-  gender: "Female" | "Male" | "Genderless" | "unknown";
+  gender: "Female" | "Male" | "Genderless" | "unknown" | "";
   origin: CharacterLocation;
   location: CharacterLocation;
   image: string;

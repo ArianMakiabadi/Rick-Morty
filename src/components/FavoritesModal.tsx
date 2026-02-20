@@ -1,9 +1,15 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { XIcon } from "lucide-react";
-import { createRef, useEffect } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from "react";
 
-function FavoritesModal({ open, onOpen, children }) {
-  const ref = createRef(null);
+type FavoritesModalProps = {
+  open: boolean;
+  onOpen: Dispatch<SetStateAction<boolean>>;
+  children: ReactNode;
+};
+
+function FavoritesModal({ open, onOpen, children }: FavoritesModalProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   // lock scroll when modal opens
   useEffect(() => {
@@ -21,7 +27,7 @@ function FavoritesModal({ open, onOpen, children }) {
   useEffect(() => {
     if (!open) return;
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onOpen(false);
       }

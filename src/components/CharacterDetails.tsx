@@ -5,37 +5,57 @@ import toast from "react-hot-toast";
 import { Check, CircleHelp, Mars, Venus } from "lucide-react";
 import useSelectedId from "../hooks/useSelectedId";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { Character } from "../types/Character";
+import { Episode } from "../types/Episode";
 
-function CharacterDetails({ onAddFavorite, favorites }) {
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [episodes, setEpisodes] = useState([]);
+type CharacterDetailsProps = {
+  onAddFavorite: (character: Character) => void;
+  favorites: Character[];
+};
+
+function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null,
+  );
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
   const { selectedId, setSelectedId } = useSelectedId();
-  const isFavorite = favorites.map((fav) => fav.id).includes(selectedId);
+  const isFavorite =
+    selectedId !== null && favorites.some((fav) => fav.id === selectedId);
   const detailsRef = useRef(null);
 
+  function handleAxiosError(error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.error || "Something went wrong";
+      toast.error(message);
+    } else {
+      toast.error("Unexpected error");
+    }
+  }
+
   useEffect(() => {
+    if (selectedId === null) return;
     async function fetchData() {
-      if (selectedId !== null) {
-        try {
-          const characters = await axios.get(
-            `https://rickandmortyapi.com/api/character/${selectedId}`
-          );
-          setSelectedCharacter(characters.data);
+      try {
+        const characters = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`,
+        );
+        setSelectedCharacter(characters.data);
 
-          const episodeIds = characters.data.episode.map((e) =>
-            e.split("/").at(-1)
-          );
-          const { data: episodeData } = await axios.get(
-            `https://rickandmortyapi.com/api/episode/${episodeIds}`
-          );
+        const episodeIds = characters.data.episode.map(
+          (e: string) => e.split("/").slice(-1)[0],
+        );
 
-          // Normalize: always an array
-          setEpisodes([episodeData].flat());
-        } catch (err) {
-          toast.error(err.response.data.error);
-        }
+        const { data: episodeData } = await axios.get<Episode | Episode[]>(
+          `https://rickandmortyapi.com/api/episode/${episodeIds}`,
+        );
+
+        // Normalize: always an array
+        setEpisodes([episodeData].flat());
+      } catch (err) {
+        handleAxiosError(err);
       }
     }
+
     fetchData();
   }, [selectedId]);
 
@@ -55,7 +75,7 @@ function CharacterDetails({ onAddFavorite, favorites }) {
   useEffect(() => {
     if (!selectedCharacter) return;
 
-    const onKeyDown = (e) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectedId(null);
         setSelectedCharacter(null);
@@ -66,10 +86,12 @@ function CharacterDetails({ onAddFavorite, favorites }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [selectedCharacter, setSelectedId]);
 
-  const genderIcons = {
+  const genderIcons: Record<Character["gender"], JSX.Element | null> = {
     Male: <Mars stroke="#1E90FF" />,
     Female: <Venus stroke="#FF69B4" />,
+    Genderless: <CircleHelp stroke="#9370DB" />,
     unknown: <CircleHelp stroke="#A9A9A9" />,
+    "": null,
   };
 
   if (!selectedCharacter || !selectedId) return null;
@@ -104,8 +126,8 @@ function CharacterDetails({ onAddFavorite, favorites }) {
                   selectedCharacter.status === "Dead"
                     ? "bg-rose-600"
                     : selectedCharacter.status === "Alive"
-                    ? "bg-green-600"
-                    : "bg-yellow-400"
+                      ? "bg-green-600"
+                      : "bg-yellow-400"
                 }`}
               ></span>
               <span>&nbsp;{selectedCharacter.status}</span>
