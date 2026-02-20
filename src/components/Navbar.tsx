@@ -3,8 +3,17 @@ import FavoritesModal from "./FavoritesModal";
 import Filters from "./Filters";
 import useSelectedId from "../hooks/useSelectedId";
 import { FiFilter } from "react-icons/fi";
-import { useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { Character } from "../types/Character";
 
+type NavbarProps = {
+  children: ReactNode[];
+  status: Character["status"];
+  setStatus: Dispatch<SetStateAction<Character["status"]>>;
+  gender: Character["gender"];
+  setGender: Dispatch<SetStateAction<Character["gender"]>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+};
 function Navbar({
   children,
   status,
@@ -12,7 +21,7 @@ function Navbar({
   gender,
   setGender,
   setCurrentPage,
-}) {
+}: NavbarProps) {
   // children[0] → Search
   // children[1] → SearchCount
   // children[2] → Favorites
@@ -74,7 +83,13 @@ function Navbar({
 export default Navbar;
 
 /* Subcomponents */
-export function Search({ query, setQuery, setCurrentPage }) {
+type SearchProps = {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+};
+
+export function Search({ query, setQuery, setCurrentPage }: SearchProps) {
   return (
     <input
       value={query}
@@ -89,7 +104,11 @@ export function Search({ query, setQuery, setCurrentPage }) {
   );
 }
 
-export function SearchCount({ matchCount }) {
+type SearchCountProps = {
+  matchCount: number | null;
+};
+
+export function SearchCount({ matchCount }: SearchCountProps) {
   if (matchCount !== null)
     return (
       <div className="text-slate-400 text-[0.7rem] whitespace-nowrap">
@@ -98,7 +117,19 @@ export function SearchCount({ matchCount }) {
     );
 }
 
-export function Favorites({ favorites, onRemove, isOpen, setIsOpen }) {
+type FavoritesProps = {
+  favorites: Character[];
+  onRemove: (id: number) => void;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export function Favorites({
+  favorites,
+  onRemove,
+  isOpen,
+  setIsOpen,
+}: FavoritesProps) {
   return (
     <>
       <FavoritesModal onOpen={setIsOpen} open={isOpen}>
@@ -126,7 +157,12 @@ export function Favorites({ favorites, onRemove, isOpen, setIsOpen }) {
   );
 }
 
-function FavoriteCharacter({ item, onRemove }) {
+type FavoriteCharacterProps = {
+  item: Character;
+  onRemove: (id: number) => void;
+};
+
+function FavoriteCharacter({ item, onRemove }: FavoriteCharacterProps) {
   const { setSelectedId } = useSelectedId();
 
   return (
@@ -161,8 +197,8 @@ function FavoriteCharacter({ item, onRemove }) {
               item.status === "Dead"
                 ? "bg-rose-600"
                 : item.status === "Alive"
-                ? "bg-green-600"
-                : "bg-yellow-400"
+                  ? "bg-green-600"
+                  : "bg-yellow-400"
             }`}
           ></span>
           <span> {item.status}</span>
