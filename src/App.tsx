@@ -11,12 +11,12 @@ import SelectedIdProvider from "./Context/SelectedIdProvider";
 import { Character } from "./types/Character";
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [status, setStatus] = useState("");
-  const [gender, setGender] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [status, setStatus] = useState<Character["status"]>("");
+  const [gender, setGender] = useState<Character["gender"]>("");
   const [favorites, setFavorites] = useLocalStorage<Character[]>(
     "Favorites",
-    []
+    [],
   );
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
@@ -24,16 +24,16 @@ function App() {
     useCharacters(query, status, gender);
 
   // Scrolling to the top of the page when page changes
-  const topRef = useRef(null);
+  const topRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [currentPage]);
 
-  function handleAddFavorites(selectedCharacter) {
+  function handleAddFavorites(selectedCharacter: Character) {
     setFavorites((prev) => [...prev, selectedCharacter]);
   }
 
-  function handleRemoveFavorite(id) {
+  function handleRemoveFavorite(id: number) {
     setFavorites((prevFavs) => prevFavs.filter((fav) => fav.id !== id));
   }
 
