@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Character } from "../types/Character";
+import { API_BASE_URL } from "../lib/api";
 
 export default function useCharacters(
   query: string,
@@ -56,7 +57,7 @@ export default function useCharacters(
         if (gender) params.append("gender", gender);
         params.append("page", currentPage.toString());
 
-        const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
+        const url = `${API_BASE_URL}/character?${params.toString()}`;
         const { data } = await axios.get(url, { signal });
 
         setCharacters(data.results);

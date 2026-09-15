@@ -7,6 +7,7 @@ import useSelectedId from "../hooks/useSelectedId";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Character } from "../types/Character";
 import { Episode } from "../types/Episode";
+import { API_BASE_URL } from "../lib/api";
 
 type CharacterDetailsProps = {
   onAddFavorite: (character: Character) => void;
@@ -37,7 +38,7 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
     async function fetchData() {
       try {
         const characters = await axios.get(
-          `https://rickandmortyapi.com/api/character/${selectedId}`,
+          `${API_BASE_URL}/character/${selectedId}`,
         );
         setSelectedCharacter(characters.data);
 
@@ -46,7 +47,7 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
         );
 
         const { data: episodeData } = await axios.get<Episode | Episode[]>(
-          `https://rickandmortyapi.com/api/episode/${episodeIds}`,
+          `${API_BASE_URL}/episode/${episodeIds}`,
         );
 
         // Normalize: always an array
