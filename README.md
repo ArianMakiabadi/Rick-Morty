@@ -33,8 +33,6 @@ index.html
 package.json
 tailwind.config.ts
 vite.config.ts
-data/
-  data.ts
 src/
   App.tsx
   main.tsx
