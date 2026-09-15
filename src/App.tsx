@@ -36,7 +36,11 @@ function App() {
   }, [currentPage]);
 
   function handleAddFavorites(selectedCharacter: Character) {
-    setFavorites((prev) => [...prev, selectedCharacter]);
+    setFavorites((prev) =>
+      prev.some((c) => c.id === selectedCharacter.id)
+        ? prev
+        : [...prev, selectedCharacter],
+    );
   }
 
   function handleRemoveFavorite(id: number) {
