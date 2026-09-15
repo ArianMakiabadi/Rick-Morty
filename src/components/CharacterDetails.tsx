@@ -20,6 +20,7 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
     null,
   );
   const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [isEpisodeOrderReversed, setIsEpisodeOrderReversed] = useState(false);
   const { selectedId, setSelectedId } = useSelectedId();
   const isFavorite =
     selectedId !== null && favorites.some((fav) => fav.id === selectedId);
@@ -27,6 +28,7 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
 
   useEffect(() => {
     if (selectedId === null) return;
+    setIsEpisodeOrderReversed(false);
     async function fetchData() {
       try {
         const characters = await axios.get(
@@ -161,15 +163,22 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
             <h2 className="text-slate-400 text-xs">
               Episodes Featuring {selectedCharacter.name}:
             </h2>
-            <button>
-              <ArrowUpCircleIcon className="w-6 text-slate-300 transition-all duration-300 ease-in-out" />
+            <button
+              aria-label="Reverse episode order"
+              onClick={() => setIsEpisodeOrderReversed((prev) => !prev)}
+            >
+              <ArrowUpCircleIcon
+                className={`w-6 text-slate-300 transition-transform duration-300 ease-in-out ${
+                  isEpisodeOrderReversed ? "rotate-180" : ""
+                }`}
+              />
             </button>
           </div>
           <ul
             ref={detailsRef}
             className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-40 overflow-y-auto pr-2"
           >
-            {episodes.map((item) => (
+            {(isEpisodeOrderReversed ? [...episodes].reverse() : episodes).map((item) => (
               <li
                 className="bg-gray-700 rounded-xl p-3 shadow hover:bg-gray-600 transition"
                 key={item.id}
