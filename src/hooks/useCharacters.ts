@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { Character } from "../types/Character";
 import { API_BASE_URL } from "../lib/api";
+import { handleAxiosError } from "../lib/handleAxiosError";
 
 export default function useCharacters(
   query: string,
@@ -73,13 +73,7 @@ export default function useCharacters(
         setCharacters([]);
         setPageCount(0);
         setMatchCount(null);
-        // guard in case response isn't present
-        let msg = "Failed to fetch characters";
-
-        if (axios.isAxiosError(err)) {
-          msg = err.response?.data?.error || msg;
-        }
-        toast.error(msg);
+        handleAxiosError(err, "Failed to fetch characters");
       } finally {
         // leave isLoading true if superseded; the next effect run sets it again
         if (!signal.aborted) setIsLoading(false);

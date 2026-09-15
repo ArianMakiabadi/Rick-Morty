@@ -1,7 +1,6 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
 import { Check, CircleHelp, Mars, Venus } from "lucide-react";
 import useSelectedId from "../hooks/useSelectedId";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
@@ -9,6 +8,7 @@ import { Character } from "../types/Character";
 import { Episode } from "../types/Episode";
 import { API_BASE_URL } from "../lib/api";
 import { getStatusColor } from "../lib/statusColor";
+import { handleAxiosError } from "../lib/handleAxiosError";
 
 type CharacterDetailsProps = {
   onAddFavorite: (character: Character) => void;
@@ -24,15 +24,6 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
   const isFavorite =
     selectedId !== null && favorites.some((fav) => fav.id === selectedId);
   const detailsRef = useRef(null);
-
-  function handleAxiosError(error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const message = error.response?.data?.error || "Something went wrong";
-      toast.error(message);
-    } else {
-      toast.error("Unexpected error");
-    }
-  }
 
   useEffect(() => {
     if (selectedId === null) return;
