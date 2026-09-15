@@ -52,13 +52,8 @@ function App() {
         setStatus={setStatus}
         gender={gender}
         setGender={setGender}
-        setCurrentPage={setCurrentPage}
       >
-        <Search
-          query={query}
-          setQuery={setQuery}
-          setCurrentPage={setCurrentPage}
-        />
+        <Search query={query} setQuery={setQuery} />
         <SearchCount matchCount={matchCount} />
         <Favorites
           favorites={favorites}

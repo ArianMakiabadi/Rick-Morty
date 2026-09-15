@@ -12,7 +12,6 @@ type NavbarProps = {
   setStatus: Dispatch<SetStateAction<Character["status"]>>;
   gender: Character["gender"];
   setGender: Dispatch<SetStateAction<Character["gender"]>>;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 function Navbar({
   children,
@@ -20,7 +19,6 @@ function Navbar({
   setStatus,
   gender,
   setGender,
-  setCurrentPage,
 }: NavbarProps) {
   // children[0] → Search
   // children[1] → SearchCount
@@ -56,7 +54,6 @@ function Navbar({
                 setStatus={setStatus}
                 gender={gender}
                 setGender={setGender}
-                setCurrentPage={setCurrentPage}
               />
             </div>
           </div>
@@ -72,7 +69,6 @@ function Navbar({
             setStatus={setStatus}
             gender={gender}
             setGender={setGender}
-            setCurrentPage={setCurrentPage}
           />
         </div>
       )}
@@ -86,16 +82,14 @@ export default Navbar;
 type SearchProps = {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
-export function Search({ query, setQuery, setCurrentPage }: SearchProps) {
+export function Search({ query, setQuery }: SearchProps) {
   return (
     <input
       value={query}
       onChange={(e) => {
         setQuery(e.target.value);
-        setCurrentPage(1);
       }}
       type="text"
       placeholder="Search..."
