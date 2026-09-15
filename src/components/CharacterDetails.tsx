@@ -8,6 +8,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Character } from "../types/Character";
 import { Episode } from "../types/Episode";
 import { API_BASE_URL } from "../lib/api";
+import { getStatusColor } from "../lib/statusColor";
 
 type CharacterDetailsProps = {
   onAddFavorite: (character: Character) => void;
@@ -123,13 +124,7 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
             </h3>
             <div className="text-slate-200 text-xs lg:text-sm mb-2">
               <span
-                className={`status ${
-                  selectedCharacter.status === "Dead"
-                    ? "bg-rose-600"
-                    : selectedCharacter.status === "Alive"
-                      ? "bg-green-600"
-                      : "bg-yellow-400"
-                }`}
+                className={`status ${getStatusColor(selectedCharacter.status)}`}
               ></span>
               <span>&nbsp;{selectedCharacter.status}</span>
               <span> -&nbsp;{selectedCharacter.species}</span>

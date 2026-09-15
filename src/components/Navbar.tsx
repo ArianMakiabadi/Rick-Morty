@@ -5,6 +5,7 @@ import useSelectedId from "../hooks/useSelectedId";
 import { FiFilter } from "react-icons/fi";
 import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { Character } from "../types/Character";
+import { getStatusColor } from "../lib/statusColor";
 
 type NavbarProps = {
   children: ReactNode[];
@@ -187,13 +188,7 @@ function FavoriteCharacter({ item, onRemove }: FavoriteCharacterProps) {
         </h3>
         <div className=" text-slate-400 text-xs">
           <span
-            className={`status ${
-              item.status === "Dead"
-                ? "bg-rose-600"
-                : item.status === "Alive"
-                  ? "bg-green-600"
-                  : "bg-yellow-400"
-            }`}
+            className={`status ${getStatusColor(item.status)}`}
           ></span>
           <span> {item.status}</span>
           <span> - {item.species}</span>

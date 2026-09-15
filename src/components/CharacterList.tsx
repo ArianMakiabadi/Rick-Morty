@@ -1,5 +1,6 @@
 import useSelectedId from "../hooks/useSelectedId";
 import type { Character } from "../types/Character";
+import { getStatusColor } from "../lib/statusColor";
 
 type CharacterListProps = {
   allCharacters: Character[];
@@ -55,15 +56,7 @@ function Character({ item }: CharacterProps) {
         </span>
       </h3>
       <div className="mx-auto text-slate-400 text-xs">
-        <span
-          className={`status ${
-            item.status === "Dead"
-              ? "bg-rose-600"
-              : item.status === "Alive"
-                ? "bg-green-600"
-                : "bg-yellow-400"
-          }`}
-        ></span>
+        <span className={`status ${getStatusColor(item.status)}`}></span>
         <span> {item.status}</span>
         <span> - {item.species}</span>
       </div>
