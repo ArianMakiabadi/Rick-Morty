@@ -3,13 +3,28 @@ import type { Character } from "../types/Character";
 
 type CharacterListProps = {
   allCharacters: Character[];
+  isLoading: boolean;
 };
 
 type CharacterProps = {
   item: Character;
 };
 
-function CharacterList({ allCharacters }: CharacterListProps) {
+function CharacterList({ allCharacters, isLoading }: CharacterListProps) {
+  if (isLoading) {
+    return (
+      <div className="text-center text-slate-400 py-10">Loading...</div>
+    );
+  }
+
+  if (allCharacters.length === 0) {
+    return (
+      <div className="text-center text-slate-400 py-10">
+        No characters found
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mx-auto flex-1 px-8">
       {allCharacters.map((item) => (

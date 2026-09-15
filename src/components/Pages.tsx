@@ -5,6 +5,8 @@ type PagesProps = {
 };
 
 function Pages({ currentPage, setCurrentPage, pageCount }: PagesProps) {
+  if (pageCount === 0) return null;
+
   const pages = getPagination(currentPage, pageCount);
   function getPagination(current: number, total: number) {
     const delta = 2; // how many pages to show around current

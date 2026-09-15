@@ -20,8 +20,14 @@ function App() {
   );
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
-  const { characters, pageCount, currentPage, setCurrentPage, matchCount } =
-    useCharacters(query, status, gender);
+  const {
+    characters,
+    pageCount,
+    currentPage,
+    setCurrentPage,
+    matchCount,
+    isLoading,
+  } = useCharacters(query, status, gender);
 
   // Scrolling to the top of the page when page changes
   const topRef = useRef<HTMLDivElement | null>(null);
@@ -61,7 +67,7 @@ function App() {
           setIsOpen={setIsFavoritesOpen}
         />
       </Navbar>
-      <CharacterList allCharacters={characters} />
+      <CharacterList allCharacters={characters} isLoading={isLoading} />
       <CharacterDetails
         onAddFavorite={handleAddFavorites}
         favorites={favorites}

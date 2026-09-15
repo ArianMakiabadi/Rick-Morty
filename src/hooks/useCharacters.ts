@@ -12,47 +12,54 @@ export default function useCharacters(
   const [pageCount, setPageCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [matchCount, setMatchCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     const DEBOUNCE_DELAY = 300; // debounce delay
 
-    async function getCharacters() {
-      try {
-        // Build query params dynamically so empty filters are not sent
-        const params = new URLSearchParams();
-        if (query) params.append("name", query);
-        if (status) params.append("status", status);
-        if (gender) params.append("gender", gender);
-        params.append("page", currentPage.toString());
-
-        const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
-        const { data } = await axios.get(url, { signal });
-
-        setCharacters(data.results);
-        setPageCount(data.info.pages);
-        // show match count when any filter/search is active
-        if (query !== "" || status || gender) {
-          setMatchCount(data.info.count);
-        } else {
-          setMatchCount(null);
-        }
-      } catch (err) {
-        if (axios.isCancel(err)) return; // request was cancelled
-        setCharacters([]);
-        // guard in case response isn't present
-        let msg = "Failed to fetch characters";
-
-        if (axios.isAxiosError(err)) {
-          msg = err.response?.data?.error || msg;
-        }
-        toast.error(msg);
-      }
-    }
-
     // setup debounce timeout
-    const timeout = setTimeout(getCharacters, DEBOUNCE_DELAY);
+    const timeout = setTimeout(() => {
+      (async () => {
+        setIsLoading(true);
+        try {
+          // Build query params dynamically so empty filters are not sent
+          const params = new URLSearchParams();
+          if (query) params.append("name", query);
+          if (status) params.append("status", status);
+          if (gender) params.append("gender", gender);
+          params.append("page", currentPage.toString());
+
+          const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
+          const { data } = await axios.get(url, { signal });
+
+          setCharacters(data.results);
+          setPageCount(data.info.pages);
+          // show match count when any filter/search is active
+          if (query !== "" || status || gender) {
+            setMatchCount(data.info.count);
+          } else {
+            setMatchCount(null);
+          }
+        } catch (err) {
+          if (axios.isCancel(err)) return; // request was cancelled
+          setCharacters([]);
+          setPageCount(0);
+          setMatchCount(null);
+          // guard in case response isn't present
+          let msg = "Failed to fetch characters";
+
+          if (axios.isAxiosError(err)) {
+            msg = err.response?.data?.error || msg;
+          }
+          toast.error(msg);
+        } finally {
+          // leave isLoading true if superseded; the next effect run sets it again
+          if (!signal.aborted) setIsLoading(false);
+        }
+      })();
+    }, DEBOUNCE_DELAY);
     // Cleanup: abort request + clear timeout
     return () => {
       controller.abort();
@@ -60,5 +67,12 @@ export default function useCharacters(
     };
   }, [query, currentPage, status, gender]);
 
-  return { characters, pageCount, currentPage, setCurrentPage, matchCount };
+  return {
+    characters,
+    pageCount,
+    currentPage,
+    setCurrentPage,
+    matchCount,
+    isLoading,
+  };
 }
