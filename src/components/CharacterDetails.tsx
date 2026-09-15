@@ -31,13 +31,13 @@ function CharacterDetails({ onAddFavorite, favorites }: CharacterDetailsProps) {
     setIsEpisodeOrderReversed(false);
     async function fetchData() {
       try {
-        const characters = await axios.get(
+        const characters = await axios.get<Character>(
           `${API_BASE_URL}/character/${selectedId}`,
         );
         setSelectedCharacter(characters.data);
 
         const episodeIds = characters.data.episode.map(
-          (e: string) => e.split("/").slice(-1)[0],
+          (e) => e.split("/").slice(-1)[0],
         );
 
         const { data: episodeData } = await axios.get<Episode | Episode[]>(
